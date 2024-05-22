@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Counter : MonoBehaviour
 {
-    private int _value = 0;
+    private int _currentCounterValue = 0;
 
     private bool _isActive = false;
 
@@ -15,25 +15,25 @@ public class NewBehaviourScript : MonoBehaviour
         {
             _isActive = true;
 
-            StartCoroutine(_valueChanging(_delay));
+            StartCoroutine(ValueChanging(_delay));
         }
         else if (Input.GetMouseButtonDown(0) && _isActive == true)
         {
             _isActive = false;
 
-            StopAllCoroutines();
+            StopAllCoroutines();       
         }       
     }
 
-    private IEnumerator _valueChanging(float delay)
+    private IEnumerator ValueChanging(float delay)
     {
         WaitForSeconds wait = new WaitForSeconds(delay);
 
         while (true)
         {
-            Debug.Log(_value);
+            Debug.Log(_currentCounterValue);
 
-            _value++;
+            _currentCounterValue++;
 
             yield return wait;
         }
