@@ -3,37 +3,46 @@ using UnityEngine;
 
 public class Counter : MonoBehaviour
 {
-    private int _currentCounterValue = 0;
+    private int _currentValue = 0;
 
     private bool _isActive = false;
 
     private float _delay = 0.5f;
 
+    private Coroutine _coroutine;
+
+    private int _mouseButton = 0;
+
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && _isActive == false)
+        if (Input.GetMouseButtonDown(_mouseButton))
         {
-            _isActive = true;
+            if (_isActive == false)
+            {
+                _isActive = true;
 
-            StartCoroutine(ValueChanging(_delay));
-        }
-        else if (Input.GetMouseButtonDown(0) && _isActive == true)
-        {
-            _isActive = false;
+                _coroutine = StartCoroutine(ChangeValue(_delay));
+            }
+            else
+            {
+                _isActive = false;
 
-            StopAllCoroutines();       
-        }       
+                StopCoroutine(_coroutine);
+            }
+        }  
     }
 
-    private IEnumerator ValueChanging(float delay)
+    private IEnumerator ChangeValue(float delay)
     {
         WaitForSeconds wait = new WaitForSeconds(delay);
 
-        while (true)
-        {
-            Debug.Log(_currentCounterValue);
+        bool isWorking = true;
 
-            _currentCounterValue++;
+        while (isWorking)
+        {
+            Debug.Log(_currentValue);
+
+            _currentValue++;
 
             yield return wait;
         }
